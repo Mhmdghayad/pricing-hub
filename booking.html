@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deskly · Office Amenities Booking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN TOKENS — derived from the supplied brand palette.
+   Blue (#0080FC) is the primary brand color.
+   ============================================================ */
+:root{
+  /* Primary blue ramp */
+  --primary:#0080FC;
+  --primary-700:#0068C8;
+  --primary-500:#2E97FC;
+  --primary-300:#73B8FD;
+  --primary-200:#A2D0FD;
+  --primary-100:#D0E7FE;
+
+  /* Secondary / accent */
+  --indigo:#574CFA;
+  --indigo-100:#DFDEFE;
+
+  /* Status colors */
+  --success:#02A38A;  --success-100:#5CC2B4;  --success-bg:#D1EEE9;
+  --warning:#FE9202;  --warning-100:#FEB95E;  --warning-bg:#FEE18A;
+  --danger:#EA0F0B;   --danger-100:#F86663;   --danger-bg:#FDC5C4;
+  --pink:#F202B6;
+
+  /* Neutral ramp */
+  --ink:#1f2b3d;
+  --n-700:#6D809C;
+  --n-500:#8695AC;
+  --n-400:#9EAABD;
+  --n-300:#B6BFCD;
+  --n-200:#CED4DE;
+  --n-100:#E7E9EF;
+  --surface:#ffffff;
+  --bg:#F4F7FB;
+
+  --radius:14px;
+  --radius-sm:10px;
+  --shadow:0 1px 2px rgba(16,40,80,.05),0 8px 24px rgba(16,40,80,.07);
+  --shadow-lg:0 12px 40px rgba(16,40,80,.18);
+  --ring:0 0 0 3px rgba(0,128,252,.25);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+a{color:inherit;text-decoration:none}
+
+/* ============================ LAYOUT ============================ */
+.app{display:grid;grid-template-columns:248px 1fr;min-height:100vh}
+
+/* Sidebar */
+.sidebar{background:#0b1b33;color:#cdd8e8;display:flex;flex-direction:column;padding:22px 16px;gap:6px;position:sticky;top:0;height:100vh}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 8px 22px}
+.brand .logo{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--primary),var(--indigo));display:grid;place-items:center;font-weight:700;color:#fff;font-size:17px}
+.brand b{font-size:18px;color:#fff;letter-spacing:.2px}
+.brand span{font-size:11px;color:var(--n-400);display:block;font-weight:500}
+.nav-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#5d6f8c;padding:14px 10px 6px;font-weight:600}
+.nav-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;color:#aebbd0;font-weight:500;font-size:14px;width:100%;text-align:left;transition:.15s}
+.nav-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.nav-item.active{background:var(--primary);color:#fff;box-shadow:0 6px 18px rgba(0,128,252,.4)}
+.nav-item .ico{width:18px;height:18px;flex:none}
+.sidebar .spacer{flex:1}
+.user-chip{display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;background:rgba(255,255,255,.05)}
+.user-chip .av{width:34px;height:34px;border-radius:50%;background:var(--primary-300);display:grid;place-items:center;color:#06294d;font-weight:700;font-size:13px}
+.user-chip small{color:var(--n-400);font-size:11px}
+
+/* Main */
+.main{padding:26px 34px 60px;max-width:1280px}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:14px}
+.topbar h1{font-size:24px;margin:0}
+.topbar p{margin:4px 0 0;color:var(--n-700);font-size:14px}
+.top-actions{display:flex;gap:10px;align-items:center}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:11px;font-weight:600;font-size:14px;transition:.15s}
+.btn-primary{background:var(--primary);color:#fff;box-shadow:0 6px 16px rgba(0,128,252,.28)}
+.btn-primary:hover{background:var(--primary-700)}
+.btn-ghost{background:var(--surface);color:var(--ink);border:1px solid var(--n-200)}
+.btn-ghost:hover{border-color:var(--primary-300);color:var(--primary-700)}
+.btn-indigo{background:var(--indigo);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+
+/* Cards */
+.card{background:var(--surface);border:1px solid var(--n-100);border-radius:var(--radius);box-shadow:var(--shadow)}
+.section-title{font-size:16px;font-weight:700;margin:0 0 14px;display:flex;align-items:center;gap:8px}
+
+/* ===================== DASHBOARD ===================== */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:26px}
+.stat{padding:18px;border-radius:var(--radius)}
+.stat .k{font-size:28px;font-weight:700;line-height:1}
+.stat .l{font-size:13px;color:var(--n-700);margin-top:6px;font-weight:500}
+.stat .ico{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;margin-bottom:12px}
+.stat.s-blue .ico{background:var(--primary-100);color:var(--primary-700)}
+.stat.s-green .ico{background:var(--success-bg);color:var(--success)}
+.stat.s-orange .ico{background:var(--warning-bg);color:#b45c00}
+.stat.s-indigo .ico{background:var(--indigo-100);color:var(--indigo)}
+
+.dash-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:20px}
+.quick-book{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:18px}
+.qb{display:flex;align-items:center;gap:14px;padding:16px;border-radius:12px;border:1px solid var(--n-100);text-align:left;transition:.15s;width:100%}
+.qb:hover{border-color:var(--primary);background:var(--primary-100);transform:translateY(-2px)}
+.qb .qb-ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:none;color:#fff}
+.qb b{display:block;font-size:15px}
+.qb small{color:var(--n-700);font-size:12px}
+
+.booking-row{display:flex;align-items:center;gap:14px;padding:14px 18px;border-top:1px solid var(--n-100)}
+.booking-row:first-of-type{border-top:none}
+.booking-row .b-ic{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;flex:none}
+.booking-row .meta{flex:1}
+.booking-row .meta b{font-size:14px}
+.booking-row .meta small{display:block;color:var(--n-700);font-size:12px;margin-top:2px}
+
+/* Badges */
+.badge{font-size:11px;font-weight:600;padding:4px 9px;border-radius:99px;display:inline-flex;align-items:center;gap:5px}
+.badge.confirmed{background:var(--success-bg);color:#057a67}
+.badge.pending{background:var(--warning-bg);color:#9a5a00}
+.badge.cancelled{background:var(--danger-bg);color:#b21512}
+.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+
+/* ===================== BROWSER / FILTERS ===================== */
+.browse{display:grid;grid-template-columns:240px 1fr;gap:22px;align-items:start}
+.filters{padding:18px}
+.filters h3{margin:0 0 4px;font-size:14px}
+.filter-group{margin-top:18px}
+.filter-group label{font-size:12px;font-weight:600;color:var(--n-700);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:8px}
+.filter-group select,.filter-group input{width:100%;padding:10px 12px;border:1px solid var(--n-200);border-radius:10px;font-size:14px;font-family:inherit;color:var(--ink);background:#fff}
+.filter-group select:focus,.filter-group input:focus{outline:none;border-color:var(--primary);box-shadow:var(--ring)}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:7px 12px;border-radius:99px;border:1px solid var(--n-200);font-size:13px;font-weight:500;color:var(--n-700);transition:.12s}
+.chip:hover{border-color:var(--primary-300)}
+.chip.on{background:var(--primary);border-color:var(--primary);color:#fff}
+
+/* View toggle */
+.view-toggle{display:inline-flex;background:var(--n-100);border-radius:11px;padding:4px;gap:4px}
+.view-toggle button{padding:8px 16px;border-radius:8px;font-weight:600;font-size:13px;color:var(--n-700)}
+.view-toggle button.on{background:#fff;color:var(--primary-700);box-shadow:var(--shadow)}
+
+/* Resource cards */
+.res-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.res-card{overflow:hidden;display:flex;flex-direction:column}
+.res-card .ph{height:110px;background:linear-gradient(135deg,var(--primary-200),var(--primary-100));display:grid;place-items:center;position:relative}
+.res-card .ph .em{font-size:42px}
+.res-card .ph .st{position:absolute;top:10px;right:10px}
+.res-card .body{padding:14px;flex:1;display:flex;flex-direction:column;gap:6px}
+.res-card .body b{font-size:15px}
+.res-card .body .loc{font-size:12px;color:var(--n-700)}
+.res-card .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:8px}
+.tag{font-size:11px;padding:3px 8px;border-radius:7px;background:var(--n-100);color:var(--n-700);font-weight:500}
+.res-card .foot{padding:0 14px 14px}
+
+/* ===================== FLOOR MAP ===================== */
+.map-wrap{padding:20px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:16px;font-size:13px}
+.legend span{display:flex;align-items:center;gap:7px;color:var(--n-700);font-weight:500}
+.legend i{width:14px;height:14px;border-radius:4px;display:inline-block}
+.floor{position:relative;background:#fff;border:1px solid var(--n-200);border-radius:12px;overflow:hidden}
+.seat{cursor:pointer;transition:.12s}
+.seat:hover{filter:brightness(1.05)}
+.seat-label{font-size:9px;font-weight:600;pointer-events:none}
+.zone-label{font-size:13px;font-weight:600;fill:var(--n-500)}
+
+/* ===================== TIME GRID ===================== */
+.grid-table{width:100%;border-collapse:collapse;font-size:13px}
+.grid-table th{padding:10px 6px;text-align:left;color:var(--n-700);font-weight:600;border-bottom:1px solid var(--n-100)}
+.grid-table td{padding:6px;border-bottom:1px solid var(--n-100)}
+.slot{height:30px;border-radius:7px;cursor:pointer;transition:.1s;border:1px solid transparent}
+.slot.free{background:var(--success-bg)}
+.slot.free:hover{background:var(--success-100)}
+.slot.busy{background:var(--danger-bg);cursor:not-allowed}
+.slot.sel{background:var(--primary);box-shadow:var(--ring)}
+.room-name b{font-size:14px}
+.room-name small{color:var(--n-700);font-size:12px;display:block}
+
+/* ===================== MY BOOKINGS ===================== */
+.tabs{display:flex;gap:6px;margin-bottom:18px;border-bottom:1px solid var(--n-100)}
+.tabs button{padding:11px 4px;margin-right:18px;font-weight:600;font-size:14px;color:var(--n-700);border-bottom:2px solid transparent}
+.tabs button.on{color:var(--primary-700);border-color:var(--primary)}
+.list-card{display:flex;align-items:center;gap:16px;padding:16px 18px;margin-bottom:12px}
+.list-card .lc-ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;flex:none}
+.list-card .lc-meta{flex:1}
+.list-card .lc-meta b{font-size:15px}
+.list-card .lc-meta small{display:block;color:var(--n-700);margin-top:3px}
+.link-danger{color:var(--danger);font-weight:600;font-size:13px}
+.link-blue{color:var(--primary-700);font-weight:600;font-size:13px}
+
+/* ===================== MODAL ===================== */
+.overlay{position:fixed;inset:0;background:rgba(11,27,51,.55);display:none;place-items:center;z-index:50;padding:20px;backdrop-filter:blur(2px)}
+.overlay.show{display:grid}
+.modal{background:#fff;border-radius:18px;width:440px;max-width:100%;box-shadow:var(--shadow-lg);overflow:hidden;animation:pop .18s ease}
+@keyframes pop{from{transform:scale(.96) translateY(8px);opacity:0}to{transform:none;opacity:1}}
+.modal .m-head{padding:20px 22px;background:linear-gradient(135deg,var(--primary),var(--primary-700));color:#fff;display:flex;align-items:center;gap:14px}
+.modal .m-head .m-em{font-size:30px}
+.modal .m-head b{font-size:18px;display:block}
+.modal .m-head small{opacity:.85}
+.modal .m-body{padding:22px}
+.m-row{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--n-100);font-size:14px}
+.m-row span{color:var(--n-700)}
+.m-row b{font-weight:600}
+.m-field{margin-top:16px}
+.m-field label{font-size:12px;font-weight:600;color:var(--n-700);display:block;margin-bottom:6px}
+.m-field input,.m-field select{width:100%;padding:11px 12px;border:1px solid var(--n-200);border-radius:10px;font-family:inherit;font-size:14px}
+.m-field input:focus,.m-field select:focus{outline:none;border-color:var(--primary);box-shadow:var(--ring)}
+.m-foot{display:flex;gap:10px;padding:0 22px 22px}
+.m-foot .btn{flex:1;justify-content:center}
+.addons{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+
+/* Success toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--success);color:#fff;padding:14px 22px;border-radius:12px;font-weight:600;box-shadow:var(--shadow-lg);z-index:60;transition:.3s;display:flex;align-items:center;gap:10px}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+.view{display:none}
+.view.active{display:block}
+
+@media(max-width:900px){
+  .app{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .stat-grid{grid-template-columns:repeat(2,1fr)}
+  .dash-grid,.browse{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">D</div>
+      <div><b>Deskly</b><span>Office booking</span></div>
+    </div>
+
+    <div class="nav-label">Workspace</div>
+    <button class="nav-item active" data-nav="dashboard"><span class="ico">🏠</span> Dashboard</button>
+    <button class="nav-item" data-nav="browse"><span class="ico">🔍</span> Find &amp; book</button>
+    <button class="nav-item" data-nav="map"><span class="ico">🗺️</span> Floor map</button>
+    <button class="nav-item" data-nav="rooms"><span class="ico">📅</span> Meeting rooms</button>
+    <button class="nav-item" data-nav="mine"><span class="ico">🎟️</span> My bookings</button>
+
+    <div class="nav-label">Manage</div>
+    <button class="nav-item" data-nav="admin"><span class="ico">⚙️</span> Admin console</button>
+
+    <div class="spacer"></div>
+    <div class="user-chip">
+      <div class="av">MG</div>
+      <div><b style="color:#fff;font-size:13px">Mohamad G.</b><small>Engineering · L4</small></div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN ================= -->
+  <main class="main">
+
+    <!-- ---------- DASHBOARD ---------- -->
+    <section class="view active" id="view-dashboard">
+      <div class="topbar">
+        <div><h1>Good morning, Mohamad 👋</h1><p>Monday, 29 June 2026 · HQ — Beirut Tower</p></div>
+        <div class="top-actions">
+          <button class="btn btn-ghost">📍 HQ — Beirut Tower</button>
+          <button class="btn btn-primary" data-goto="browse">+ New booking</button>
+        </div>
+      </div>
+
+      <div class="stat-grid">
+        <div class="card stat s-blue"><div class="ico">🪑</div><div class="k">128</div><div class="l">Desks available today</div></div>
+        <div class="card stat s-green"><div class="ico">📅</div><div class="k">7</div><div class="l">Meeting rooms free now</div></div>
+        <div class="card stat s-orange"><div class="ico">🚗</div><div class="k">12</div><div class="l">Parking spots left</div></div>
+        <div class="card stat s-indigo"><div class="ico">📊</div><div class="k">68%</div><div class="l">Office occupancy</div></div>
+      </div>
+
+      <div class="dash-grid">
+        <div class="card" style="padding:18px">
+          <h3 class="section-title">⚡ Quick book</h3>
+          <div class="quick-book" style="padding:0">
+            <button class="qb" data-quick="Desk"><span class="qb-ic" style="background:var(--primary)">🪑</span><span><b>Hot desk</b><small>Pick a seat on the map</small></span></button>
+            <button class="qb" data-quick="Meeting room"><span class="qb-ic" style="background:var(--indigo)">📅</span><span><b>Meeting room</b><small>Find a free slot</small></span></button>
+            <button class="qb" data-quick="Lunch seat"><span class="qb-ic" style="background:var(--success)">🍽️</span><span><b>Lunch seat</b><small>Reserve a dining slot</small></span></button>
+            <button class="qb" data-quick="Parking spot"><span class="qb-ic" style="background:var(--warning)">🚗</span><span><b>Parking spot</b><small>Daily / EV charging</small></span></button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="section-title" style="padding:18px 18px 0">📌 Today's schedule</h3>
+          <div class="booking-row">
+            <div class="b-ic" style="background:var(--primary-100)">🪑</div>
+            <div class="meta"><b>Desk D-214</b><small>All day · Floor 2, Window zone</small></div>
+            <span class="badge confirmed">Confirmed</span>
+          </div>
+          <div class="booking-row">
+            <div class="b-ic" style="background:var(--indigo-100)">📅</div>
+            <div class="meta"><b>Sprint review — Orion Room</b><small>11:00–12:00 · Floor 3 · 8 seats</small></div>
+            <span class="badge confirmed">Confirmed</span>
+          </div>
+          <div class="booking-row">
+            <div class="b-ic" style="background:var(--success-bg)">🍽️</div>
+            <div class="meta"><b>Lunch — Skyline Canteen</b><small>13:00–13:30 · Seat 2 of wave B</small></div>
+            <span class="badge pending">Pending</span>
+          </div>
+          <div class="booking-row">
+            <div class="b-ic" style="background:var(--warning-bg)">🚗</div>
+            <div class="meta"><b>Parking P-07 (EV)</b><small>09:00–18:00 · Level B1</small></div>
+            <span class="badge confirmed">Confirmed</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- BROWSE / FIND & BOOK ---------- -->
+    <section class="view" id="view-browse">
+      <div class="topbar">
+        <div><h1>Find &amp; book</h1><p>Filter across every amenity and reserve in two clicks.</p></div>
+      </div>
+
+      <div class="browse">
+        <div class="card filters">
+          <h3>Filters</h3>
+          <div class="filter-group">
+            <label>Resource type</label>
+            <select id="f-type">
+              <option value="all">All amenities</option>
+              <option>Desk</option><option>Meeting room</option>
+              <option>Lunch seat</option><option>Parking spot</option>
+              <option>Phone booth</option>
+            </select>
+          </div>
+          <div class="filter-group"><label>Date</label><input type="date" value="2026-06-29"></div>
+          <div class="filter-group"><label>From</label><input type="time" value="09:00"></div>
+          <div class="filter-group"><label>To</label><input type="time" value="18:00"></div>
+          <div class="filter-group"><label>Floor</label>
+            <select><option>Any floor</option><option>Floor 1</option><option>Floor 2</option><option>Floor 3</option><option>Basement B1</option></select>
+          </div>
+          <div class="filter-group">
+            <label>Amenities</label>
+            <div class="chip-row">
+              <button class="chip">Window</button><button class="chip">Monitor</button>
+              <button class="chip">Standing</button><button class="chip">A/V</button>
+              <button class="chip">EV charger</button>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="res-toolbar">
+            <div class="view-toggle">
+              <button class="on">Grid</button>
+              <button data-goto="map">Floor map</button>
+            </div>
+            <span style="color:var(--n-700);font-size:14px"><b id="res-count">12</b> resources available</span>
+          </div>
+          <div class="res-grid" id="res-grid"><!-- injected --></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- FLOOR MAP ---------- -->
+    <section class="view" id="view-map">
+      <div class="topbar">
+        <div><h1>Floor map — Floor 2</h1><p>Click any green seat to book it. Blue = your selection.</p></div>
+        <div class="top-actions">
+          <select class="btn btn-ghost" style="border:1px solid var(--n-200)"><option>Floor 2 — Desks</option><option>Basement B1 — Parking</option></select>
+          <input class="btn btn-ghost" type="date" value="2026-06-29" style="border:1px solid var(--n-200)">
+        </div>
+      </div>
+      <div class="card map-wrap">
+        <div class="legend">
+          <span><i style="background:var(--success-bg)"></i> Available</span>
+          <span><i style="background:var(--danger-bg)"></i> Booked</span>
+          <span><i style="background:var(--warning-bg)"></i> Reserved (pending)</span>
+          <span><i style="background:var(--primary)"></i> Your selection</span>
+          <span><i style="background:var(--n-200)"></i> Unavailable</span>
+        </div>
+        <div class="floor">
+          <svg id="floor-svg" viewBox="0 0 760 420" width="100%" style="display:block"></svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- MEETING ROOMS / TIME GRID ---------- -->
+    <section class="view" id="view-rooms">
+      <div class="topbar">
+        <div><h1>Meeting rooms</h1><p>Monday 29 June · click a free slot to reserve. Drag-style selection in real build.</p></div>
+        <button class="btn btn-ghost">📅 Today</button>
+      </div>
+      <div class="card" style="padding:20px;overflow-x:auto">
+        <table class="grid-table" id="time-grid"></table>
+      </div>
+    </section>
+
+    <!-- ---------- MY BOOKINGS ---------- -->
+    <section class="view" id="view-mine">
+      <div class="topbar"><div><h1>My bookings</h1><p>Manage upcoming and past reservations.</p></div></div>
+      <div class="tabs">
+        <button class="on">Upcoming</button><button>Past</button><button>Cancelled</button>
+      </div>
+      <div id="mine-list"></div>
+    </section>
+
+    <!-- ---------- ADMIN ---------- -->
+    <section class="view" id="view-admin">
+      <div class="topbar"><div><h1>Admin console</h1><p>Resources, booking rules and utilization.</p></div>
+        <button class="btn btn-primary">+ Add resource</button></div>
+      <div class="stat-grid">
+        <div class="card stat s-blue"><div class="ico">🏢</div><div class="k">312</div><div class="l">Total resources</div></div>
+        <div class="card stat s-green"><div class="ico">✅</div><div class="k">1,204</div><div class="l">Bookings this month</div></div>
+        <div class="card stat s-orange"><div class="ico">⚠️</div><div class="k">38</div><div class="l">No-shows (auto-released)</div></div>
+        <div class="card stat s-indigo"><div class="ico">📈</div><div class="k">71%</div><div class="l">Avg. utilization</div></div>
+      </div>
+      <div class="dash-grid">
+        <div class="card" style="padding:18px">
+          <h3 class="section-title">📊 Utilization by amenity</h3>
+          <div id="util-bars"></div>
+        </div>
+        <div class="card" style="padding:18px">
+          <h3 class="section-title">📋 Booking rules</h3>
+          <div class="m-row"><span>Max desk advance window</span><b>14 days</b></div>
+          <div class="m-row"><span>Meeting room max duration</span><b>4 hours</b></div>
+          <div class="m-row"><span>Auto-release no-show after</span><b>15 min</b></div>
+          <div class="m-row"><span>Parking daily limit / user</span><b>1 spot</b></div>
+          <div class="m-row" style="border:none"><span>Premium rooms need approval</span><b>Yes</b></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ================= BOOKING MODAL ================= -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="m-head">
+      <div class="m-em" id="m-em">🪑</div>
+      <div><b id="m-title">Desk D-214</b><small id="m-sub">Floor 2 · Window zone</small></div>
+    </div>
+    <div class="m-body">
+      <div class="m-row"><span>Date</span><b>Mon, 29 June 2026</b></div>
+      <div class="m-row"><span>Time</span><b id="m-time">All day (09:00–18:00)</b></div>
+      <div class="m-row"><span>Status</span><b style="color:var(--success)">Available</b></div>
+      <div class="m-field">
+        <label>Booking type</label>
+        <select id="m-type-sel"><option>Whole day</option><option>Morning (09:00–13:00)</option><option>Afternoon (13:00–18:00)</option><option>Custom</option></select>
+      </div>
+      <div class="m-field">
+        <label>Add-ons</label>
+        <div class="addons">
+          <button class="chip">+ External monitor</button>
+          <button class="chip">+ Standing converter</button>
+          <button class="chip">+ Visitor pass</button>
+        </div>
+      </div>
+    </div>
+    <div class="m-foot">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmBooking()">Confirm booking</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">✅ Booking confirmed — invite sent to your calendar</div>
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+const emojiFor = {Desk:'🪑','Meeting room':'📅','Lunch seat':'🍽️','Parking spot':'🚗','Phone booth':'📞'};
+const colorFor = {Desk:'var(--primary)','Meeting room':'var(--indigo)','Lunch seat':'var(--success)','Parking spot':'var(--warning)','Phone booth':'var(--pink)'};
+
+const resources = [
+  {type:'Desk', name:'Desk D-214', loc:'Floor 2 · Window zone', tags:['Window','Monitor','Sit/Stand'], status:'free'},
+  {type:'Desk', name:'Desk D-118', loc:'Floor 1 · Quiet zone', tags:['Monitor'], status:'free'},
+  {type:'Meeting room', name:'Orion Room', loc:'Floor 3 · 8 seats', tags:['A/V','Whiteboard','Video'], status:'free'},
+  {type:'Meeting room', name:'Nova Pod', loc:'Floor 2 · 4 seats', tags:['Video'], status:'busy'},
+  {type:'Lunch seat', name:'Skyline Canteen — Wave B', loc:'Ground · 13:00–13:30', tags:['12 seats left'], status:'free'},
+  {type:'Parking spot', name:'Parking P-07', loc:'Basement B1', tags:['EV charger','Covered'], status:'free'},
+  {type:'Parking spot', name:'Parking P-22', loc:'Basement B2', tags:['Covered'], status:'busy'},
+  {type:'Phone booth', name:'Focus Booth #3', loc:'Floor 2', tags:['1 person','Soundproof'], status:'free'},
+  {type:'Desk', name:'Desk D-301', loc:'Floor 3 · Collab zone', tags:['Dual monitor','Standing'], status:'free'},
+  {type:'Meeting room', name:'Helix Boardroom', loc:'Floor 4 · 16 seats', tags:['A/V','Catering','Approval'], status:'free'},
+  {type:'Lunch seat', name:'Skyline Canteen — Wave A', loc:'Ground · 12:30–13:00', tags:['Full'], status:'busy'},
+  {type:'Desk', name:'Desk D-205', loc:'Floor 2 · Window zone', tags:['Window','Monitor'], status:'free'},
+];
+
+const myBookings = [
+  {type:'Desk', name:'Desk D-214', when:'Today · All day', loc:'Floor 2, Window zone', status:'confirmed'},
+  {type:'Meeting room', name:'Orion Room — Sprint review', when:'Today · 11:00–12:00', loc:'Floor 3 · 8 seats', status:'confirmed'},
+  {type:'Lunch seat', name:'Skyline Canteen — Wave B', when:'Today · 13:00–13:30', loc:'Seat 2', status:'pending'},
+  {type:'Parking spot', name:'Parking P-07 (EV)', when:'Today · 09:00–18:00', loc:'Level B1', status:'confirmed'},
+  {type:'Meeting room', name:'Nova Pod — 1:1', when:'Tomorrow · 15:00–15:30', loc:'Floor 2 · 4 seats', status:'confirmed'},
+];
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+function go(view){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+view).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active', n.dataset.nav===view));
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>go(b.dataset.nav));
+document.querySelectorAll('[data-goto]').forEach(b=>b.onclick=()=>go(b.dataset.goto));
+document.querySelectorAll('[data-quick]').forEach(b=>b.onclick=()=>{
+  const t=b.dataset.quick;
+  if(t==='Desk') go('map');
+  else if(t==='Meeting room') go('rooms');
+  else go('browse');
+});
+
+/* ============================================================
+   RESOURCE GRID
+   ============================================================ */
+function renderResources(filter='all'){
+  const grid=document.getElementById('res-grid');
+  const list=resources.filter(r=>filter==='all'||r.type===filter);
+  document.getElementById('res-count').textContent=list.length;
+  grid.innerHTML=list.map((r,i)=>`
+    <div class="card res-card">
+      <div class="ph">
+        <span class="em">${emojiFor[r.type]}</span>
+        <span class="st badge ${r.status==='free'?'confirmed':'cancelled'}">${r.status==='free'?'Available':'Booked'}</span>
+      </div>
+      <div class="body">
+        <b>${r.name}</b>
+        <div class="loc">${r.loc}</div>
+        <div class="tags">${r.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      </div>
+      <div class="foot">
+        <button class="btn ${r.status==='free'?'btn-primary':'btn-ghost'}" style="width:100%;justify-content:center"
+          ${r.status==='free'?`onclick="openModal('${r.type}','${r.name}','${r.loc}')"`:'disabled'}>
+          ${r.status==='free'?'Book now':'Unavailable'}
+        </button>
+      </div>
+    </div>`).join('');
+}
+document.getElementById('f-type').onchange=e=>renderResources(e.target.value);
+
+/* ============================================================
+   FLOOR MAP (SVG desks)
+   ============================================================ */
+function renderFloor(){
+  const svg=document.getElementById('floor-svg');
+  const states=['free','free','free','busy','free','free','pending','free','free','busy','free','free','free','free','busy','free','free','free','free','free'];
+  const fill={free:'var(--success-bg)',busy:'var(--danger-bg)',pending:'var(--warning-bg)',na:'var(--n-200)'};
+  let html='';
+  // zone backdrops
+  html+=`<rect x="30" y="30" width="340" height="170" rx="14" fill="#F4F7FB" stroke="#E7E9EF"/>`;
+  html+=`<rect x="390" y="30" width="340" height="170" rx="14" fill="#F4F7FB" stroke="#E7E9EF"/>`;
+  html+=`<rect x="30" y="230" width="700" height="160" rx="14" fill="#F4F7FB" stroke="#E7E9EF"/>`;
+  html+=`<text x="46" y="52" class="zone-label">Window zone</text>`;
+  html+=`<text x="406" y="52" class="zone-label">Quiet zone</text>`;
+  html+=`<text x="46" y="252" class="zone-label">Collaboration zone</text>`;
+  // seat positions
+  const seats=[];
+  let n=201;
+  const rows=[[70,90],[160,90],[250,90],[70,150],[160,150],[250,150],
+             [430,90],[520,90],[610,90],[430,150],[520,150],[610,150],
+             [80,300],[180,300],[280,300],[380,300],[480,300],[580,300],[80,350],[180,350]];
+  rows.forEach((p,i)=>{
+    const s=states[i]||'free';
+    const code='D-'+(n++);
+    const c = s==='free'?'var(--success)':s==='busy'?'var(--danger-100)':'var(--warning-100)';
+    seats.push(`<g class="seat" data-state="${s}" data-code="${code}" ${s==='free'?`onclick="openModal('Desk','Desk ${code}','Floor 2 zone')"`:''}>
+      <rect x="${p[0]}" y="${p[1]}" width="62" height="44" rx="9" fill="${fill[s]}" stroke="${c}" stroke-width="1.5"/>
+      <text x="${p[0]+31}" y="${p[1]+27}" text-anchor="middle" class="seat-label" fill="#33425c">${code}</text>
+    </g>`);
+  });
+  svg.innerHTML=html+seats.join('');
+}
+
+/* ============================================================
+   TIME GRID (meeting rooms)
+   ============================================================ */
+function renderTimeGrid(){
+  const rooms=[
+    {name:'Orion Room', cap:'8 seats · A/V', busy:[2,3]},
+    {name:'Nova Pod', cap:'4 seats · Video', busy:[0,1,5]},
+    {name:'Helix Boardroom', cap:'16 seats · Catering', busy:[6,7]},
+    {name:'Quartz Room', cap:'6 seats · Whiteboard', busy:[4]},
+  ];
+  const hours=['09','10','11','12','13','14','15','16'];
+  let head='<tr><th>Room</th>'+hours.map(h=>`<th>${h}:00</th>`).join('')+'</tr>';
+  let body=rooms.map(r=>{
+    const cells=hours.map((h,i)=>{
+      const busy=r.busy.includes(i);
+      return `<td><div class="slot ${busy?'busy':'free'}" ${busy?'':`onclick="selectSlot(this,'${r.name}','${h}:00')"`}></div></td>`;
+    }).join('');
+    return `<tr><td class="room-name"><b>${r.name}</b><small>${r.cap}</small></td>${cells}</tr>`;
+  }).join('');
+  document.getElementById('time-grid').innerHTML=head+body;
+}
+let selectedSlot=null;
+function selectSlot(el,room,time){
+  if(selectedSlot) selectedSlot.classList.remove('sel');
+  el.classList.add('sel'); selectedSlot=el;
+  openModal('Meeting room',room,'Floor 3 · 8 seats',time+'–'+(parseInt(time)+1)+':00');
+}
+
+/* ============================================================
+   MY BOOKINGS LIST
+   ============================================================ */
+function renderMine(){
+  document.getElementById('mine-list').innerHTML=myBookings.map(b=>`
+    <div class="card list-card">
+      <div class="lc-ic" style="background:${b.status==='pending'?'var(--warning-bg)':'var(--primary-100)'}">${emojiFor[b.type]}</div>
+      <div class="lc-meta"><b>${b.name}</b><small>${b.when} · ${b.loc}</small></div>
+      <span class="badge ${b.status}">${b.status[0].toUpperCase()+b.status.slice(1)}</span>
+      <a class="link-blue" href="#">Modify</a>
+      <a class="link-danger" href="#" onclick="cancelBooking(this);return false">Cancel</a>
+    </div>`).join('');
+}
+function cancelBooking(el){
+  const card=el.closest('.list-card');
+  card.style.opacity='.45';
+  card.querySelector('.badge').outerHTML='<span class="badge cancelled">Cancelled</span>';
+  el.remove();
+  showToast('Booking cancelled');
+}
+
+/* ============================================================
+   ADMIN UTILIZATION BARS
+   ============================================================ */
+function renderUtil(){
+  const data=[['🪑 Desks',82,'var(--primary)'],['📅 Meeting rooms',64,'var(--indigo)'],['🍽️ Lunch seats',91,'var(--success)'],['🚗 Parking',77,'var(--warning)'],['📞 Phone booths',45,'var(--pink)']];
+  document.getElementById('util-bars').innerHTML=data.map(([l,v,c])=>`
+    <div style="margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span>${l}</span><b>${v}%</b></div>
+      <div style="height:9px;background:var(--n-100);border-radius:99px;overflow:hidden"><div style="width:${v}%;height:100%;background:${c};border-radius:99px"></div></div>
+    </div>`).join('');
+}
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+function openModal(type,name,loc,time){
+  document.getElementById('m-em').textContent=emojiFor[type]||'🪑';
+  document.getElementById('m-title').textContent=name;
+  document.getElementById('m-sub').textContent=loc;
+  document.getElementById('m-time').textContent=time||'All day (09:00–18:00)';
+  document.getElementById('overlay').classList.add('show');
+}
+function closeModal(){document.getElementById('overlay').classList.remove('show');if(selectedSlot){selectedSlot.classList.remove('sel');selectedSlot=null;}}
+function confirmBooking(){closeModal();showToast('Booking confirmed — invite sent to your calendar');}
+document.getElementById('overlay').onclick=e=>{if(e.target.id==='overlay')closeModal();};
+
+/* Add-on / chip toggles */
+document.addEventListener('click',e=>{if(e.target.classList.contains('chip'))e.target.classList.toggle('on');});
+
+/* Toast */
+let toastT;
+function showToast(msg){const t=document.getElementById('toast');t.textContent='✅ '+msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2600);}
+
+/* INIT */
+renderResources();renderFloor();renderTimeGrid();renderMine();renderUtil();
+</script>
+</body>
+</html>
