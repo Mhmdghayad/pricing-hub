@@ -8,54 +8,54 @@
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
-body{font-family:'IBM Plex Sans',system-ui,-apple-system,sans-serif;background:#120c05;color:#f1e9d8;min-height:100vh;display:grid;place-items:center;position:relative;overflow:hidden;-webkit-font-smoothing:antialiased}
+body{font-family:'IBM Plex Sans',system-ui,-apple-system,sans-serif;background:#0a161a;color:#e6f1f4;min-height:100vh;display:grid;place-items:center;position:relative;overflow:hidden;-webkit-font-smoothing:antialiased}
 .bg{position:fixed;inset:0;z-index:0;pointer-events:none}
-.bg-glow{background:radial-gradient(620px 380px at 50% -8%,rgba(202,160,61,.18),transparent 60%),radial-gradient(760px 520px at 50% 118%,rgba(176,125,26,.14),transparent 62%)}
-.bg-grid{background-image:linear-gradient(rgba(190,160,110,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(190,160,110,.05) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(circle at 50% 40%,#000,transparent 70%);mask-image:radial-gradient(circle at 50% 40%,#000,transparent 70%)}
+.bg-glow{background:radial-gradient(620px 380px at 50% -8%,rgba(79,138,153,.2),transparent 60%),radial-gradient(760px 520px at 50% 118%,rgba(47,102,117,.16),transparent 62%)}
+.bg-grid{background-image:linear-gradient(rgba(110,165,178,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(110,165,178,.05) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(circle at 50% 40%,#000,transparent 70%);mask-image:radial-gradient(circle at 50% 40%,#000,transparent 70%)}
 
 .shell{position:relative;z-index:1;width:432px;max-width:92vw}
 .brand{display:flex;align-items:center;gap:11px;justify-content:center;margin-bottom:18px}
-.mark{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;background:linear-gradient(135deg,#e9c873,#b07d1a 55%,#86590f);box-shadow:0 6px 18px rgba(176,125,26,.42);color:#2a1d04;font-weight:700;font-size:18px}
+.mark{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;background:linear-gradient(135deg,#6fb0c0,#4f8a99 55%,#2f6675);box-shadow:0 6px 18px rgba(47,102,117,.45);color:#06141a;font-weight:700;font-size:18px}
 .brand .bt{line-height:1.35}
-.brand .t1{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:3px;color:#f1e9d8;font-weight:600}
-.brand .t2{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:2.5px;color:#a99668}
+.brand .t1{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:3px;color:#e6f1f4;font-weight:600}
+.brand .t2{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:2.5px;color:#8fb0b8}
 
-.card{background:linear-gradient(180deg,rgba(40,31,18,.94),rgba(26,20,11,.94));border:1px solid rgba(176,140,70,.18);border-radius:16px;padding:26px 30px 24px;box-shadow:0 40px 90px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,236,200,.05)}
-.statusbar{display:flex;align-items:center;justify-content:space-between;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;color:#a99668;border-bottom:1px solid rgba(176,140,70,.12);padding-bottom:14px;margin-bottom:20px}
+.card{background:linear-gradient(180deg,rgba(20,42,49,.94),rgba(13,28,33,.94));border:1px solid rgba(79,138,153,.2);border-radius:16px;padding:26px 30px 24px;box-shadow:0 40px 90px rgba(0,0,0,.6),inset 0 1px 0 rgba(180,230,240,.05)}
+.statusbar{display:flex;align-items:center;justify-content:space-between;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;color:#8fb0b8;border-bottom:1px solid rgba(79,138,153,.14);padding-bottom:14px;margin-bottom:20px}
 .statusbar span{white-space:nowrap}
-.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#caa03d;box-shadow:0 0 0 3px rgba(202,160,61,.18);margin-right:8px;vertical-align:1px;animation:pulse 2.4s ease-in-out infinite}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#4f8a99;box-shadow:0 0 0 3px rgba(79,138,153,.2);margin-right:8px;vertical-align:1px;animation:pulse 2.4s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.35}}
 
-.shield{position:relative;width:64px;height:64px;margin:4px auto 18px;display:grid;place-items:center;border-radius:16px;background:radial-gradient(circle at 50% 28%,rgba(202,160,61,.2),rgba(176,125,26,.03));border:1px solid rgba(202,160,61,.3);animation:halo 2.8s ease-in-out infinite}
-.shield::before{content:"";position:absolute;inset:-3px;border-radius:18px;background:conic-gradient(from 0deg,transparent 205deg,rgba(224,186,92,.95) 320deg,transparent 360deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 2px));animation:scan 2.6s linear infinite}
+.shield{position:relative;width:64px;height:64px;margin:4px auto 18px;display:grid;place-items:center;border-radius:16px;background:radial-gradient(circle at 50% 28%,rgba(79,138,153,.2),rgba(47,102,117,.04));border:1px solid rgba(79,138,153,.32);animation:halo 2.8s ease-in-out infinite}
+.shield::before{content:"";position:absolute;inset:-3px;border-radius:18px;background:conic-gradient(from 0deg,transparent 205deg,rgba(111,176,192,.95) 320deg,transparent 360deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 2px));animation:scan 2.6s linear infinite}
 .shield svg{position:relative;animation:breathe 2.8s ease-in-out infinite}
 @keyframes scan{to{transform:rotate(360deg)}}
-@keyframes halo{0%,100%{box-shadow:0 0 0 0 rgba(176,125,26,0)}50%{box-shadow:0 0 26px 2px rgba(176,125,26,.3)}}
+@keyframes halo{0%,100%{box-shadow:0 0 0 0 rgba(47,102,117,0)}50%{box-shadow:0 0 26px 2px rgba(47,102,117,.32)}}
 @keyframes breathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-1px) scale(1.05)}}
 h1{font-size:21px;font-weight:600;margin:0 0 7px;text-align:center;letter-spacing:-.2px}
-.sub{color:#b8a884;font-size:13px;line-height:1.55;text-align:center;margin:0 auto 22px;max-width:300px}
+.sub{color:#8fb0b8;font-size:13px;line-height:1.55;text-align:center;margin:0 auto 22px;max-width:300px}
 
-label{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;color:#a99668;margin-bottom:9px}
+label{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;color:#8fb0b8;margin-bottom:9px}
 .field{position:relative}
-.field .ki{position:absolute;left:14px;top:50%;transform:translateY(-50%);display:grid;place-items:center;color:#977f4c;pointer-events:none}
-input{width:100%;padding:14px 14px 14px 42px;background:rgba(22,15,6,.7);border:1px solid rgba(176,140,70,.22);border-radius:11px;color:#f1e9d8;font-size:15px;font-family:'IBM Plex Mono',monospace;letter-spacing:2px;outline:none;transition:border-color .15s,box-shadow .15s}
-input::placeholder{letter-spacing:.5px;color:#8a7a54}
-input:focus{border-color:#caa03d;box-shadow:0 0 0 3px rgba(202,160,61,.18);background:rgba(22,15,6,.92)}
+.field .ki{position:absolute;left:14px;top:50%;transform:translateY(-50%);display:grid;place-items:center;color:#5f8088;pointer-events:none}
+input{width:100%;padding:14px 14px 14px 42px;background:rgba(8,22,26,.7);border:1px solid rgba(79,138,153,.24);border-radius:11px;color:#e6f1f4;font-size:15px;font-family:'IBM Plex Mono',monospace;letter-spacing:2px;outline:none;transition:border-color .15s,box-shadow .15s}
+input::placeholder{letter-spacing:.5px;color:#5f8088}
+input:focus{border-color:#4f8a99;box-shadow:0 0 0 3px rgba(79,138,153,.2);background:rgba(8,22,26,.92)}
 
-button{margin-top:16px;width:100%;padding:14px;border:0;border-radius:11px;background:linear-gradient(135deg,#caa03d,#a8730f);color:#2a1d04;font-weight:700;font-size:13.5px;letter-spacing:.3px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'IBM Plex Sans',sans-serif;transition:filter .15s,transform .05s}
+button{margin-top:16px;width:100%;padding:14px;border:0;border-radius:11px;background:linear-gradient(135deg,#4f8a99,#2f6675);color:#06141a;font-weight:700;font-size:13.5px;letter-spacing:.3px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'IBM Plex Sans',sans-serif;transition:filter .15s,transform .05s}
 button:hover{filter:brightness(1.08)}
 button:active{transform:translateY(1px)}
 button:disabled{opacity:.7;cursor:default}
 .err{color:#e08a7a;font-size:12px;margin-top:13px;min-height:17px;text-align:center;font-family:'IBM Plex Mono',monospace;letter-spacing:.3px}
 
-.meta{margin-top:20px;border-top:1px solid rgba(120,150,190,.1);padding-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
-.meta .k{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;color:#5d6e84;margin-bottom:5px}
-.meta .v{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#c3cedd;font-weight:500}
+.meta{margin-top:20px;border-top:1px solid rgba(79,138,153,.12);padding-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.meta .k{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;color:#6f929b;margin-bottom:5px}
+.meta .v{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#cfe2e7;font-weight:500}
 
-.foot{text-align:center;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:1.2px;color:#8a7a54;margin-top:18px;line-height:1.7}
+.foot{text-align:center;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:1.2px;color:#5f8088;margin-top:18px;line-height:1.7}
 
 @keyframes spin{to{transform:rotate(360deg)}}
-.sp{display:inline-block;width:14px;height:14px;border:2px solid rgba(42,29,4,.4);border-top-color:#2a1d04;border-radius:50%;animation:spin .7s linear infinite}
+.sp{display:inline-block;width:14px;height:14px;border:2px solid rgba(6,20,26,.4);border-top-color:#06141a;border-radius:50%;animation:spin .7s linear infinite}
 </style></head><body>
 <div class="bg bg-glow"></div>
 <div class="bg bg-grid"></div>
@@ -72,7 +72,7 @@ button:disabled{opacity:.7;cursor:default}
       <span>AES-256-GCM</span>
     </div>
     <div class="shield">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d9a93f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/><circle cx="12" cy="15.4" r="1.2" fill="#d9a93f" stroke="none"/></svg>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6fb0c0" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/><circle cx="12" cy="15.4" r="1.2" fill="#6fb0c0" stroke="none"/></svg>
     </div>
     <h1>Protected Workspace</h1>
     <div class="sub">Restricted administrative environment. Authenticate to decrypt and open the console.</div>
@@ -81,7 +81,7 @@ button:disabled{opacity:.7;cursor:default}
       <span class="ki"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M10.8 12.2 21 2"/><path d="m16 7 3 3"/><path d="m18.5 4.5 3 3"/></svg></span>
       <input id="pw" type="password" placeholder="Enter access key" autocomplete="current-password" autofocus>
     </div>
-    <button id="go"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2a1d04" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>Authenticate &amp; Decrypt</button>
+    <button id="go"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#06141a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>Authenticate &amp; Decrypt</button>
     <div class="err" id="err"></div>
   </div>
   <div class="foot">UNAUTHORIZED ACCESS PROHIBITED · CONTENTS REMAIN ENCRYPTED UNTIL A VALID KEY IS PROVIDED</div>
@@ -101,7 +101,7 @@ async function unlock(){
     const html=new TextDecoder().decode(pt);
     document.open(); document.write(html); document.close();
   }catch(e){
-    btn.disabled=false; btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2a1d04" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"></rect><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"></path></svg>Authenticate &amp; Decrypt'; err.textContent='ACCESS DENIED · INVALID KEY'; $('#pw').value=''; $('#pw').focus();
+    btn.disabled=false; btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#06141a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"></rect><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"></path></svg>Authenticate &amp; Decrypt'; err.textContent='ACCESS DENIED · INVALID KEY'; $('#pw').value=''; $('#pw').focus();
   }
 }
 $('#go').onclick=unlock; $('#pw').addEventListener('keydown',e=>{if(e.key==='Enter')unlock();});
