@@ -1,0 +1,33 @@
+name: Verify encrypted payload
+
+# Guards every change to index.html: confirms the encrypted envelope is
+# well-formed and strongly derived before it can be merged / published.
+# This does NOT deploy — GitHub Pages handles publishing separately.
+
+on:
+  push:
+    branches: ['**']
+    paths:
+      - 'index.html'
+      - 'scripts/verify-envelope.mjs'
+      - '.github/workflows/verify.yml'
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'scripts/verify-envelope.mjs'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Verify envelope
+        # If a repo secret named MONTY_TEST_PW is set, this also performs a
+        # full end-to-end decrypt. Without it, structural checks still run.
+        env:
+          MONTY_TEST_PW: ${{ secrets.MONTY_TEST_PW }}
+        run: node scripts/verify-envelope.mjs index.html
