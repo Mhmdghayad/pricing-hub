@@ -56,6 +56,18 @@ root). The verify workflow does **not** deploy; it only gates content quality.
 > Settings → Pages (re-select the source branch and save) before new deploys
 > will publish.
 
+## Agent skills
+
+`.claude/skills/web-design-guidelines/` installs the
+[web-design-guidelines](https://github.com/vercel-labs/agent-skills) skill from
+vercel-labs/agent-skills. It teaches coding agents to audit UI changes against
+the Web Interface Guidelines (accessibility, UX, and design best practices).
+
+It was chosen because this project is **plain HTML/CSS/JS** — a single
+self-contained `index.html` with inline styles and scripts, no framework and no
+build step — so the framework-specific skills in that collection
+(`react-best-practices`, `react-view-transitions`, etc.) do not apply here.
+
 ## Rollback
 
 Known-good published builds are tagged (e.g. `good-<shortsha>`). To roll back:
